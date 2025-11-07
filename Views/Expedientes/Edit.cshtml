@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Editar Expediente";
+    var alumnos = ViewBag.Alumnos as List<SistemaExpedientesAcademicos.Models.Alumno>;
+    var materias = ViewBag.Materias as List<SistemaExpedientesAcademicos.Models.Materias>;
+}
+
+<h1>Editar Expediente</h1>
+
+<form method="post">
+    <input type="hidden" name="ExpedienteId" value="@Model.ExpedienteId" />
+    
+    <div class="form-group">
+        <label>Alumno:</label>
+        <select name="AlumnoId" class="form-control" required>
+            @if (alumnos != null)
+            {
+                foreach (var alumno in alumnos)
+                {
+                    <option value="@alumno.AlumnoId" selected="@(alumno.AlumnoId == Model.AlumnoId)">
+                        @alumno.Nombre @alumno.Apellido
+                    </option>
+                }
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label>Materia:</label>
+        <select name="MateriaId" class="form-control" required>
+            @if (materias != null)
+            {
+                foreach (var materia in materias)
+                {
+                    <option value="@materia.MateriaId" selected="@(materia.MateriaId == Model.MateriaId)">
+                        @materia.NombreMateria
+                    </option>
+                }
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label>Nota Final:</label>
+        <input type="number" step="0.1" name="NotaFinal" class="form-control" value="@Model.NotaFinal" required />
+    </div>
+    
+    <div class="form-group">
+        <label>Observaciones:</label>
+        <textarea name="Observaciones" class="form-control">@Model.Observaciones</textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
